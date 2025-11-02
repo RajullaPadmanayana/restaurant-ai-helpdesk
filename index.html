@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Golden Table - AI Help Desk</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🍽️</span>
+                <span class="logo-text">The Golden Table</span>
+            </div>
+            <div class="header-info">
+                <span class="table-number">Table 1</span>
+                <span class="current-time" id="currentTime"></span>
+            </div>
+            <div class="header-actions">
+                <button class="icon-btn" id="homeBtn" title="Home">
+                    <span>🏠</span>
+                </button>
+                <button class="icon-btn" id="languageBtn" title="Language">
+                    <span>🌐</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <!-- Welcome Screen -->
+        <div class="view" id="welcomeView">
+            <div class="welcome-header">
+                <h1>Welcome to The Golden Table!</h1>
+                <p>How can we make your dining experience exceptional today?</p>
+            </div>
+            <div class="action-cards">
+                <div class="action-card" data-view="menuView">
+                    <span class="card-icon">📋</span>
+                    <h3>View Menu</h3>
+                    <p>Browse our delicious offerings</p>
+                </div>
+                <div class="action-card" data-view="chatView">
+                    <span class="card-icon">💬</span>
+                    <h3>Ask Questions</h3>
+                    <p>Chat with our AI assistant</p>
+                </div>
+                <div class="action-card" data-view="orderView">
+                    <span class="card-icon">🛒</span>
+                    <h3>My Order</h3>
+                    <p>View and place your order</p>
+                </div>
+                <div class="action-card" data-view="waiterView">
+                    <span class="card-icon">🙋</span>
+                    <h3>Call Waiter</h3>
+                    <p>Request assistance</p>
+                </div>
+                <div class="action-card" data-view="billView">
+                    <span class="card-icon">💳</span>
+                    <h3>Request Bill</h3>
+                    <p>Ready to pay</p>
+                </div>
+                <div class="action-card" data-view="feedbackView">
+                    <span class="card-icon">⭐</span>
+                    <h3>Feedback</h3>
+                    <p>Share your experience</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat View -->
+        <div class="view" id="chatView" style="display: none;">
+            <div class="view-header">
+                <button class="back-btn" data-back="welcomeView">← Back</button>
+                <h2>AI Assistant</h2>
+            </div>
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot-message">
+                        <div class="message-content">
+                            Hello! I'm your AI dining assistant. How can I help you today?
+                        </div>
+                    </div>
+                </div>
+                <div class="quick-suggestions">
+                    <button class="suggestion-chip" data-question="What are your specials today?">Today's Specials</button>
+                    <button class="suggestion-chip" data-question="Do you have vegetarian options?">Vegetarian Options</button>
+                    <button class="suggestion-chip" data-question="What dishes are gluten-free?">Gluten-Free</button>
+                    <button class="suggestion-chip" data-question="I have a nut allergy, what can I eat?">Nut Allergy Info</button>
+                    <button class="suggestion-chip" data-question="Do you have a kids menu?">Kids Menu</button>
+                </div>
+                <div class="chat-input-container">
+                    <input type="text" id="chatInput" placeholder="Type your question..." class="chat-input">
+                    <button id="chatSendBtn" class="chat-send-btn">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu View -->
+        <div class="view" id="menuView" style="display: none;">
+            <div class="view-header">
+                <button class="back-btn" data-back="welcomeView">← Back</button>
+                <h2>Our Menu</h2>
+            </div>
+            <div class="menu-filters">
+                <input type="text" id="menuSearch" placeholder="Search menu..." class="form-control">
+                <div class="filter-buttons">
+                    <button class="filter-btn" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="vegetarian">🌱 Vegetarian</button>
+                    <button class="filter-btn" data-filter="vegan">🥬 Vegan</button>
+                    <button class="filter-btn" data-filter="gluten-free">🌾 Gluten-Free</button>
+                </div>
+            </div>
+            <div class="menu-tabs">
+                <button class="menu-tab active" data-category="all">All Items</button>
+                <button class="menu-tab" data-category="Starters">Starters</button>
+                <button class="menu-tab" data-category="Main Course">Main Course</button>
+                <button class="menu-tab" data-category="Desserts">Desserts</button>
+                <button class="menu-tab" data-category="Beverages">Beverages</button>
+            </div>
+            <div class="menu-items" id="menuItems"></div>
+        </div>
+
+        <!-- Order View -->
+        <div class="view" id="orderView" style="display: none;">
+            <div class="view-header">
+                <button class="back-btn" data-back="welcomeView">← Back</button>
+                <h2>My Order</h2>
+            </div>
+            <div class="order-content" id="orderContent">
+                <div class="empty-state">
+                    <span class="empty-icon">🍽️</span>
+                    <p>Your order is empty</p>
+                    <button class="btn btn--primary" data-view="menuView">Browse Menu</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Waiter Call View -->
+        <div class="view" id="waiterView" style="display: none;">
+            <div class="view-header">
+                <button class="back-btn" data-back="welcomeView">← Back</button>
+                <h2>Call Waiter</h2>
+            </div>
+            <div class="form-container">
+                <div class="form-group">
+                    <label class="form-label">Reason for assistance:</label>
+                    <select id="waiterReason" class="form-control">
+                        <option value="Need assistance">Need assistance</option>
+                        <option value="Ready to order">Ready to order</option>
+                        <option value="Request bill">Request bill</option>
+                        <option value="Need refills">Need refills</option>
+                        <option value="Table needs cleaning">Table needs cleaning</option>
+                        <option value="Have a question">Have a question</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Additional notes (optional):</label>
+                    <textarea id="waiterNotes" class="form-control" rows="4" placeholder="Any specific requests..."></textarea>
+                </div>
+                <button class="btn btn--primary btn--full-width" id="callWaiterBtn">Call Waiter</button>
+                <p class="help-text">Average response time: 2-3 minutes</p>
+            </div>
+        </div>
+
+        <!-- Bill View -->
+        <div class="view" id="billView" style="display: none;">
+            <div class="view-header">
+                <button class="back-btn" data-back="welcomeView">← Back</button>
+                <h2>Request Bill</h2>
+            </div>
+            <div class="bill-container" id="billContainer">
+                <div class="empty-state">
+                    <span class="empty-icon">💳</span>
+                    <p>No orders placed yet</p>
+                    <button class="btn btn--primary" data-view="menuView">Browse Menu</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback View -->
+        <div class="view" id="feedbackView" style="display: none;">
+            <div class="view-header">
+                <button class="back-btn" data-back="welcomeView">← Back</button>
+                <h2>Share Your Feedback</h2>
+            </div>
+            <div class="form-container">
+                <div class="rating-section">
+                    <label class="form-label">Food Quality:</label>
+                    <div class="star-rating" data-rating="foodQuality">
+                        <span class="star" data-value="1">⭐</span>
+                        <span class="star" data-value="2">⭐</span>
+                        <span class="star" data-value="3">⭐</span>
+                        <span class="star" data-value="4">⭐</span>
+                        <span class="star" data-value="5">⭐</span>
+                    </div>
+                </div>
+                <div class="rating-section">
+                    <label class="form-label">Service:</label>
+                    <div class="star-rating" data-rating="service">
+                        <span class="star" data-value="1">⭐</span>
+                        <span class="star" data-value="2">⭐</span>
+                        <span class="star" data-value="3">⭐</span>
+                        <span class="star" data-value="4">⭐</span>
+                        <span class="star" data-value="5">⭐</span>
+                    </div>
+                </div>
+                <div class="rating-section">
+                    <label class="form-label">Ambiance:</label>
+                    <div class="star-rating" data-rating="ambiance">
+                        <span class="star" data-value="1">⭐</span>
+                        <span class="star" data-value="2">⭐</span>
+                        <span class="star" data-value="3">⭐</span>
+                        <span class="star" data-value="4">⭐</span>
+                        <span class="star" data-value="5">⭐</span>
+                    </div>
+                </div>
+                <div class="rating-section">
+                    <label class="form-label">Overall Experience:</label>
+                    <div class="star-rating" data-rating="overall">
+                        <span class="star" data-value="1">⭐</span>
+                        <span class="star" data-value="2">⭐</span>
+                        <span class="star" data-value="3">⭐</span>
+                        <span class="star" data-value="4">⭐</span>
+                        <span class="star" data-value="5">⭐</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Would you recommend us?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="recommend" value="yes" checked>
+                            Yes
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="recommend" value="no">
+                            No
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Additional Comments:</label>
+                    <textarea id="feedbackComments" class="form-control" rows="4" placeholder="Tell us more about your experience..."></textarea>
+                </div>
+                <button class="btn btn--primary btn--full-width" id="submitFeedbackBtn">Submit Feedback</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle"></h3>
+                <button class="modal-close" id="modalClose">×</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
