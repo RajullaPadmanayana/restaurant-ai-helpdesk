@@ -703,6 +703,7 @@ function showModal(title, body) {
 function closeModal() {
   document.getElementById('modal').style.display = 'none';
 }
+
 window.onpopstate = function(event) {
   if (event.state && event.state.viewId) {
     switchView(event.state.viewId, false); // Don't push new history entry
@@ -710,6 +711,7 @@ window.onpopstate = function(event) {
     switchView('welcomeView', false);
   }
 };
+
 
 
 // Start the app
