@@ -106,7 +106,16 @@ function init() {
   setInterval(updateTime, 1000);
   setupEventListeners();
   renderMenu();
+
+  // On initial load, show correct view if hash is present
+  const hash = window.location.hash.replace('#', '');
+  if (hash && document.getElementById(hash)) {
+    switchView(hash, false);
+  } else {
+    switchView('welcomeView', false);
+  }
 }
+
 
 // Update Time
 function updateTime() {
@@ -212,11 +221,10 @@ function setupEventListeners() {
 }
 
 // View Management
-function switchView(viewId) {
+function switchView(viewId, push = true) {
   document.querySelectorAll('.view').forEach(view => {
     view.style.display = 'none';
   });
-  
   document.getElementById(viewId).style.display = 'block';
   currentView = viewId;
 
@@ -226,7 +234,13 @@ function switchView(viewId) {
   } else if (viewId === 'billView') {
     renderBillView();
   }
+
+  // Push state to browser history if needed
+  if (push) {
+    window.history.pushState({viewId: viewId}, "", "#" + viewId);
+  }
 }
+
 
 // Chat Functions
 function sendMessage() {
@@ -689,6 +703,14 @@ function showModal(title, body) {
 function closeModal() {
   document.getElementById('modal').style.display = 'none';
 }
+window.onpopstate = function(event) {
+  if (event.state && event.state.viewId) {
+    switchView(event.state.viewId, false); // Don't push new history entry
+  } else {
+    switchView('welcomeView', false);
+  }
+};
+
 
 // Start the app
 init();
