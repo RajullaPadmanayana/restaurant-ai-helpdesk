@@ -242,6 +242,7 @@ function switchView(viewId, push = true) {
 }
 
 
+
 // Chat Functions
 function sendMessage() {
   const input = document.getElementById('chatInput');
@@ -259,7 +260,7 @@ function sendMessage() {
 }
 
 function addChatMessage(message, type) {
-  const messagesContainer = document.getElementById('chatMessages');
+  const mesagesContainer = document.getElementById('chatMessages');
   const messageDiv = document.createElement('div');
   messageDiv.className = `message ${type}-message`;
   
@@ -704,6 +705,7 @@ function closeModal() {
   document.getElementById('modal').style.display = 'none';
 }
 
+
 window.onpopstate = function(event) {
   if (event.state && event.state.viewId) {
     switchView(event.state.viewId, false); // Don't push new history entry
@@ -711,6 +713,7 @@ window.onpopstate = function(event) {
     switchView('welcomeView', false);
   }
 };
+
 
 
 
